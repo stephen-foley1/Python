@@ -14,18 +14,24 @@ print("\nGenerating Alice's public-private key pair...")
 alice_private_key = parameters.generate_private_key()
 alice_public_key = alice_private_key.public_key()
 alice_public_numbers = alice_public_key.public_numbers()
+alice_private_numbers = alice_private_key.private_numbers()
 A = alice_public_numbers.y
+a = alice_private_numbers.x
 print(f"Alice's public key (A) = {A}")
+print(f"Alice's private key (a) = {a}")
 
-# Save parameters and Alice's public key to a file
-with open("alice_parameters.txt", "w") as f:
-    f.write(f"{p}\n{g}\n{A}\n")
+# Save parameters and Alice's keys to a file
+with open("alice_keys.txt", "w") as f:
+    f.write(f"p = {p}\n")
+    f.write(f"g = {g}\n")
+    f.write(f"Alice's Public Key = {A}\n")
+    f.write(f"Alice's Private Key = {a}\n")
 
-print("\nParameters and Alice's public key have been saved to 'alice_parameters.txt'.")
+print("\nParameters and Alice's keys have been saved to 'alice_keys.txt'.")
 
 # Read Bob's public key from the file
-with open("bob_public_key.txt", "r") as f:
-    B = int(f.readline().strip())
+with open("bob_keys.txt", "r") as f:
+    B = int(f.readline().strip().split('=')[1].strip())
 
 # Step 4: Alice computes the shared key using Bob's public key
 bob_public_numbers = dh.DHPublicNumbers(B, parameter_numbers)
