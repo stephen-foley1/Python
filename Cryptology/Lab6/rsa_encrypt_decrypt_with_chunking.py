@@ -1,3 +1,4 @@
+import time
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding, rsa
 import os
@@ -40,8 +41,16 @@ def decrypt_message(private_key, encrypted_chunks):
 
 # We can encrypt/decrypt large messages using chunking.
 long_plaintext = os.urandom(5000)
+
+start = time.perf_counter()
 long_ciphertext = encrypt_message(public_key, long_plaintext, 32)
+end = time.perf_counter()
+print(f"Encryption Time: {end - start:.4f} seconds")
+
+start = time.perf_counter()
 long_plaintext_2 = decrypt_message(private_key, long_ciphertext)
+end = time.perf_counter()
+print(f"Decryption Time: {end - start:.4f} seconds")
 
 print()
 print("Plaintext: " + long_plaintext.hex())
